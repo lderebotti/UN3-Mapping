@@ -1,0 +1,74 @@
+# 4D_Neural_SDF
+setting:
+  dataset: "kitti"
+  data_path: "./data/07/velodyne/"
+  pose_path: "./data/07/poses.txt"
+  calib_path: "./data/07/calib.txt"
+  label_path: ""
+  output_folder: "experiments/kitti/07"
+  device: "cuda"
+  begin_frame: 0
+  end_frame: -1
+  step_frame: 1
+  semantic_on: False
+  random_seed: 42
+
+process:
+  min_range: 2.75 # unit: m
+  max_range: 25.0 # 30
+  min_z: -2.75 # -2.75
+  vox_down_m: 0.08 # negative value indicates not to downsample
+
+range_image:
+  fov_up: 3
+  fov_down: -25
+  proj_H: 64
+  proj_W: 1024 # 2048
+
+neural_voxel:
+  leaf_voxel_size: 0.3
+  voxel_level_num : 2
+  scale_up_factor : 2 # scale up for upper level resolution
+  feature_dim: 8
+  hash_buffer_size: 2e7
+
+decoder:
+  mlp_level: 2
+  mlp_hidden_dim: 32
+  freeze_after_frame: 40
+
+sampler:
+  surface_sample_range_m: 0.25
+  surface_sample_n: 3
+  free_sample_begin_ratio: 0.3
+  free_sample_end_dist_m: 0.8
+  free_front_sample_n: 8
+  free_behind_sample_n: 1
+
+loss:
+  main_loss_type: hybrid # bce sdf_l1 sdf_l2 heter hybrid
+  sigma_sigmoid_m: 0.08
+  loss_weight_on: False
+  dist_weight_scale: 0.8
+  ekional_loss_on: False
+  weight_e: 0.5
+  proj_correction_on: True
+  
+mapping: # optimizer
+  epochs: 20
+  batch_size: 16384
+  learning_rate: 0.001
+  
+output:
+  static_pointcloud: False
+  point_cloud_viewer: False
+  segmentation_threshold: 0.16
+  mesh_recon: True
+  mesh_resolution: 0.1
+  # mesh_res: 5 # mesh grid size = voxel_size/(res-1)
+  save_pc_map: False
+  save_error_map: False
+  thre_dist: 0.1
+  trunc_dist_acc: 0.2
+  trunc_dist_com: 2.0
+  gt_model_path: ""

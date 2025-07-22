@@ -1,0 +1,74 @@
+# 4D_Neural_SDF
+setting:
+  dataset: "kth"
+  data_path: "/home/isds/Documents/dataset/KTH_dynamic/data/av2/pcd"
+  pose_path: "/home/isds/Documents/dataset/KTH_dynamic/data/translations/av2.txt"
+  calib_path: ""
+  label_path: ""
+  output_folder: "experiments/kth/av2"
+  device: "cuda"
+  begin_frame: 0
+  end_frame: -1
+  step_frame: 1
+  semantic_on: False
+  random_seed: 42
+
+process:
+  min_range: 3.0 # unit: m
+  max_range: 80.0
+  min_z: -3.00 # -2.75
+  vox_down_m: 0.08 # negative value indicates not to downsample
+
+range_image:
+  fov_up: 3
+  fov_down: -25
+  proj_H: 64
+  proj_W: 1024 # 900
+
+neural_voxel:
+  leaf_voxel_size: 0.3
+  voxel_level_num : 2
+  scale_up_factor : 1.5 # scale up for upper level resolution
+  feature_dim: 8
+  hash_buffer_size: 2e7
+
+decoder:
+  mlp_level: 2
+  mlp_hidden_dim: 32
+  freeze_after_frame: 40
+
+sampler:
+  surface_sample_range_m: 0.3
+  surface_sample_n: 3
+  free_sample_begin_ratio: 0.3
+  free_sample_end_dist_m: 0.8
+  free_front_sample_n: 18
+  free_behind_sample_n: 2
+
+loss:
+  main_loss_type: heter # bce sdf_l1 sdf_l2 heter hybrid
+  sigma_sigmoid_m: 0.1
+  loss_weight_on: False
+  dist_weight_scale: 0.8
+  ekional_loss_on: False
+  weight_e: 0.5
+  proj_correction_on: False
+  
+mapping: # optimizer
+  epochs: 20
+  batch_size: 16384
+  learning_rate: 0.001
+  
+output:
+  static_pointcloud: True
+  point_cloud_viewer: False
+  segmentation_threshold: 0.16
+  mesh_recon: False
+  mesh_resolution: 0.2
+  # mesh_res: 5 # mesh grid size = voxel_size/(res-1)
+  save_pc_map: False
+  save_error_map: False
+  thre_dist: 0.1
+  trunc_dist_acc: 0.2
+  trunc_dist_com: 2.0
+  gt_model_path: "./KTH_dynamic/gt_cloud.pcd"

@@ -1,0 +1,72 @@
+# 4D_Neural_SDF
+setting:
+  dataset: "ncd"
+  data_path: "./ncd_example/quad/pcd/"
+  pose_path: "./ncd_example/quad/poses.txt"
+  calib_path: "./ncd_example/quad/calib.txt"
+  label_path: " "
+  output_folder: "experiments/ncd/quad/"
+  device: "cuda"
+  begin_frame: 0
+  end_frame: -1
+  step_frame: 5
+  semantic_on: False
+  random_seed: 42
+
+process:
+  min_range: 1.5 # unit: m
+  max_range: 50 
+  min_z: -10.0
+  vox_down_m: 0.03 # negative value indicates not to downsample
+
+range_image:
+  fov_up: 16.6
+  fov_down: -16.6 # 22.5
+  proj_H: 64
+  proj_W: 1024 # 900 1024
+
+neural_voxel:
+  leaf_voxel_size: 0.2
+  voxel_level_num : 2
+  scale_up_factor : 1.5 # scale up for upper level resolution
+  feature_dim: 8
+  hash_buffer_size: 2e7
+
+decoder:
+  mlp_level: 2
+  mlp_hidden_dim: 32
+  freeze_after_frame: 40
+
+sampler:
+  surface_sample_range_m: 0.2
+  surface_sample_n: 3
+  free_sample_begin_ratio: 0.3
+  free_sample_end_dist_m: 1.0 # seems not very necessary
+  free_front_sample_n: 3
+  free_behind_sample_n: 1
+loss:
+  main_loss_type: hybrid # bce heter hybrid
+  sigma_sigmoid_m: 0.1
+  loss_weight_on: False
+  dist_weight_scale: 0.8
+  ekional_loss_on: False
+  weight_e: 0.5
+  proj_correction_on: True
+  
+mapping: # optimizer
+  epochs: 20
+  batch_size: 16384
+  learning_rate: 0.001 #0.001
+  
+output:
+  static_pointcloud: False
+  point_cloud_viewer: False
+  segmentation_threshold: 0.16
+  mesh_recon: True
+  mesh_resolution: 0.1
+  save_pc_map: False
+  save_error_map: False
+  thre_dist: 0.2
+  trunc_dist_acc: 0.4
+  trunc_dist_com: 2.0
+  gt_model_path: "./ncd_example/ncd_quad_gt_pc.ply"
