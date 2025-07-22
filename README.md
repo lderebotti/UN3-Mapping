@@ -2,7 +2,7 @@
   <h1 align="center">UN3-Mapping: Uncertainty-Aware Neural Non-Projective Signed Distance Fields for 3D Mapping
 </h1>
 
-
+[click to see the paper](https://ieeexplore.ieee.org/abstract/document/11078897)
 ```
 @article{song2025un3,
   title={UN3-Mapping: Uncertainty-Aware Neural Non-Projective Signed Distance Fields for 3D Mapping},
@@ -12,6 +12,8 @@
   publisher={IEEE}
 }
 ```
+<img width="1920" height="849" alt="overview" src="https://github.com/user-attachments/assets/0fbbd14c-3f6b-450f-99ff-57249bfad3d8" />
+<img width="1024" height="382" alt="qualitative_ucner_grad" src="https://github.com/user-attachments/assets/5c19fd04-f591-4035-84f0-19450f8e8452" />
 
 ## Abstract
 
