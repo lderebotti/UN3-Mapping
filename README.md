@@ -22,6 +22,21 @@
 Building accurate and reliable maps is a critical requirement for autonomous robots. In this letter, we propose UN3-Mapping, an implicit neural mapping method that enables high-quality 3D reconstruction with integrated uncertainty estimation. Our approach employs a hybrid representation: an implicit neural distance field models scene geometry, while an explicit gradient field, optimized from surface normals, derives non-projective signed distance labels from raw range data. These refined distance labels are then used to train our implicit map. For uncertainty estimation, we design an online learning framework to capture the reconstruction uncertainty in a self-supervised manner. Benefiting from the uncertainty-aware map, our method is capable of removing the dynamic obstacles with high uncertainty within the raw point cloud. Extensive experiments show that our approach outperforms existing methods in mapping accuracy and completeness while also exhibiting promising potential for dynamic object segmentation.
 </details>
 
+## Docker
+Build the docker container:
+
+```
+chmod +x ./docker/build.sh
+./docker/build.sh
+```
+
+Run the docker container:
+
+```
+chmod +x ./docker/run.sh
+./docker/run.sh <SOURCE_DIR> <DATA_DIR>
+```
+
 ## Installation
 
 We tested our code on Ubuntu 20.04 with an NVIDIA RTX 3090.
