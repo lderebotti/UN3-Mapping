@@ -12,4 +12,4 @@ RUN	useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME
 RUN	chmod -R 777 /workspace
 USER	$UNAME
 RUN	pip install --upgrade pip
-RUN	pip install open3d scikit-image tqdm natsort typing_extensions==4.15.0 "numpy<1.27"
+RUN	pip install wandb open3d scikit-image tqdm natsort typing_extensions==4.15.0 "numpy<1.27"
